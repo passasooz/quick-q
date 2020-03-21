@@ -1,14 +1,27 @@
-/*function initMap() {
-    // The location of Uluru
-    var uluru = {lat: -25.344, lng: 131.036};
-    // The map, centered at Uluru
-    var map = new google.maps.Map(
-        document.getElementById('map'), {zoom: 4, center: uluru});
-    // The marker, positioned at Uluru
-    var marker = new google.maps.Marker({position: uluru, map: map});
-  }*/
 var API_KEY = 'AIzaSyDwDELgO5F19_AmDgtchXwwK0QZ8rbTKC8';
-
+function create_marker(_map, element) {
+    var marker = new google.maps.Marker({
+        position: {
+            lat: element.geometry.location.lat,
+            lng: element.geometry.location.lng
+        },
+        map: _map,
+        draggable: false,
+        animation: google.maps.Animation.DROP,
+        icon: {
+            url: 'img/supermarket.png',
+            scaledSize: new google.maps.Size(30, 30)
+        },
+        title: element.name
+    });
+    var _infowindow = new google.maps.InfoWindow({
+        size: new google.maps.Size(150, 50)
+    });
+    google.maps.event.addListener(marker, 'click', function() {
+        _infowindow.setContent(element.vicinity);
+        _infowindow.open(_map, marker);
+    });
+}
 function show_grocery(_map, lat,lng) {
     var data = {
         lat: lat,
@@ -23,7 +36,7 @@ function show_grocery(_map, lat,lng) {
         success:function(res) {
             if(res.status) {
                 $.each(res.list, function(index,element) {
-                    console.log(element);
+                    create_marker(_map, element);
                 });
             }
             console.log(res.message);
@@ -66,7 +79,7 @@ $(document).ready(function() {
             });
     
     
-            show_grocery(_map, position.coords.latitude, position.coords.longitude);
+            show_grocery(map, position.coords.latitude, position.coords.longitude);
         }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
         });

@@ -1,4 +1,3 @@
-var API_KEY = 'AIzaSyDwDELgO5F19_AmDgtchXwwK0QZ8rbTKC8';
 function create_marker(_map, element) {
     var marker = new google.maps.Marker({
         position: {
@@ -9,7 +8,7 @@ function create_marker(_map, element) {
         draggable: false,
         animation: google.maps.Animation.DROP,
         icon: {
-            url: 'img/supermarket.png',
+            url: IMG_MARKET,
             scaledSize: new google.maps.Size(30, 30)
         },
         title: element.name
@@ -24,13 +23,11 @@ function create_marker(_map, element) {
 }
 function show_grocery(_map, lat,lng) {
     var data = {
-        lat: lat,
-        lng: lng,
-        api_key: API_KEY
+        location: lat+','+lng
     };
     $.ajax({
         type: 'POST',
-        url: 'main.php',
+        url: ABSOLUTE_URL + '/places',
         data: data,
         dataType: 'json',
         success:function(res) {
@@ -38,8 +35,9 @@ function show_grocery(_map, lat,lng) {
                 $.each(res.list, function(index,element) {
                     create_marker(_map, element);
                 });
+            } else {
+                console.log(res.message);
             }
-            console.log(res.message);
         },
         error: function() {
             console.log('ajax error');
@@ -47,7 +45,11 @@ function show_grocery(_map, lat,lng) {
     });
 }
 $(document).ready(function() {
-    
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
     var map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: -34.397, lng: 150.644},
         zoom: 15,
@@ -66,7 +68,7 @@ $(document).ready(function() {
             infoWindow.setContent('I\'m HERE!');*/
             map.setCenter(pos);
             var _icon = {
-                url: 'img/marker.png',
+                url: IMG_ME,
                 scaledSize: new google.maps.Size(30, 30)
             };
             var marker = new google.maps.Marker({
@@ -98,3 +100,4 @@ $(document).ready(function() {
     }
 });
 
+// !4m8!1m2!2m1!1sHotel!3m4!1s0x131a20eda9d7000f:0xf58b792fe85dcbef!8m2!3d37.8940921!4d13.1138134

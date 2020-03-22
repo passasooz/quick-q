@@ -17,7 +17,8 @@ function create_marker(_map, element) {
         size: new google.maps.Size(150, 50)
     });
     google.maps.event.addListener(marker, 'click', function() {
-        _infowindow.setContent(element.vicinity);
+        //_infowindow.setContent(element.name + '<br>' + element.vicinity + '<br>' + element.time_spent + (typeof element.now != "undefined" ? '<br>' + element.now : ''));
+        _infowindow.setContent(element.name + '<br>' + element.vicinity + '<br><strong>' + element.now + '</strong>' + (typeof element.time_spent != "undefined" ? '<br><strong>' + element.time_spent + '</strong>' : ''));
         _infowindow.open(_map, marker);
     });
 }
@@ -52,8 +53,8 @@ $(document).ready(function() {
     });
     var map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: -34.397, lng: 150.644},
-        zoom: 15,
-        styles: [{featureType: 'poi.business',elementType: 'labels',stylers: [{ visibility: 'off' }]}]
+        zoom: 14,
+        styles: [{featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }]}]
     });
     var infoWindow = new google.maps.InfoWindow({map: map});
     
@@ -61,8 +62,8 @@ $(document).ready(function() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
             var pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
+                lat: 45.6932773,//position.coords.latitude,
+                lng: 9.6638595//position.coords.longitude
             };
             /*infoWindow.setPosition(pos);
             infoWindow.setContent('I\'m HERE!');*/
@@ -81,7 +82,8 @@ $(document).ready(function() {
             });
     
     
-            show_grocery(map, position.coords.latitude, position.coords.longitude);
+            //show_grocery(map, position.coords.latitude, position.coords.longitude);
+            show_grocery(map, 45.6932773, 9.6638595);
         }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
         });

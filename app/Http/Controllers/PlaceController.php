@@ -18,7 +18,8 @@ class PlaceController extends Controller
     {
         $result = [
             'status'        => false,
-            'message'       => ''
+            'message'       => '',
+            'list'          => []
         ];
         if(strlen($request->input('location')) <= 0) {
             $result['message'] = 'non siamo riusciti a verificare la tua posizione';
@@ -27,7 +28,8 @@ class PlaceController extends Controller
 
         $data = [
             'location'  => $request->input('location'),
-            'radius'    => 2000
+            'radius'    => 3000,
+            'keyword'   => 'Grocery store'
         ];
 
         $googlePlaces = new GooglePlaces();
@@ -37,25 +39,17 @@ class PlaceController extends Controller
            return $e->getMessage();
         }
 
-        $result['list'] = $places;
+        foreach($places as $index => $place) {
+            if(array_key_exists('now', $place)) {
+                array_push($result['list'], $place);
+            }
+        }
+        if(count($result['list']) <= 0) {
+            $result['message'] = 'non ci sono dati per la tua zona';
+            return response()->json($result);
+        }
+
         $result['status'] = true;
         return response()->json($result);
     }
-
-    /*
-     * @params $request, $place
-     * Retrun a place of given id with its own popular times
-    public function show(Request $request, $place)
-    {
-        $data = $request->all();
-        $googlePlaces = new GooglePlaces();
-
-        try{
-            $places = $googlePlaces->placeDetailWithPopularTimes($place);
-        }catch(GooglePlacesException $e){
-           return $e->getMessage();
-        }
-        return response()->json($places, 200);
-    }
-    */
 }

@@ -17,7 +17,7 @@
             var IMG_MARKET = "{{asset('img/supermarket.png')}}";
         </script>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwDELgO5F19_AmDgtchXwwK0QZ8rbTKC8&signed_in=true"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{env('GOOGLE_KEY')}}&signed_in=true"></script>
         <script src="{{asset('js/main.js')}}"></script>
     </body>
 </html>

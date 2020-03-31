@@ -28,6 +28,11 @@ The **algorithms** will instead process the data and be able to evaluate statist
 - **[data algorithm]**
 
 
+## Demo
+
+You can find a short video about how **Quick-Q** works at this [link](https://youtu.be/N30Og85SA64)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/rlaTV5MQTQY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## License
 
 The Quick-Q application licensed under the [license](https://github.com/passasooz/quick-q/blob/master/LICENSE).
